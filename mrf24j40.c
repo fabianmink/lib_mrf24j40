@@ -112,8 +112,14 @@ int mrf24j40_hw_init(mrf24j40_devHandle_t *dev)
 	//delay_ms(1);
 
 	//Step 16.
-	MRF24J40_longAddressWrite(REG_RFCON3, 0x00); //0dbm
-	//MRF24J40_longAddressWrite(REG_RFCON3, 0x80); //-20dbm
+	MRF24J40_longAddressWrite(REG_RFCON3, 0x00); //0dbm  TX Power
+	//MRF24J40_longAddressWrite(REG_RFCON3, 0x80); //-20dbm TX Power
+
+	//Step 16 for MRF24J40ME.   (Module with PA / LNA)
+	//MRF24J40_longAddressWrite(REG_RFCON3, 0x85); //0.1dbm TX Power
+	//MRF24J40_longAddressWrite(REG_RFCON3, 0x00); //NOT SPECIFIED ??Power too high??
+	//MRF24J40_longAddressWrite(REG_TESTMODE, 0x7); //PA / LNA control
+
 
 	//Step 17.
 	MRF24J40_shortAddressWrite(REG_RFCTL, 0x04); //Reset RF
@@ -221,5 +227,13 @@ int mrf24j40_transmit(mrf24j40_devHandle_t* dev, macHeader_t* header, uint8_t *p
 
 	ret = mrf24j40_doTransmit(dev);
 	return ret;
+}
+
+int mrf24j40_dumpSaMem(mrf24j40_devHandle_t *dev, mrf24j40_saReg_t *map){
+	int i;
+	for(i=0;i<64;i++){
+		map->regblock[i] = MRF24J40_shortAddressRead(i);
+	}
+	return(0);
 }
 

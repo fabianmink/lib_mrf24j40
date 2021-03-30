@@ -23,8 +23,13 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+#ifndef __MRF24J40_H
+#define __MRF24J40_H
+
 #include <stdint.h>
 #include <stdbool.h>
+
+#include "mrf24j40_reg.h"
 
 
 #define MRF24J40_CHANNEL11   0
@@ -71,3 +76,7 @@ extern int mrf24j40_prepareTransmit(mrf24j40_devHandle_t* dev, macHeader_t* head
 extern int mrf24j40_doTransmit(mrf24j40_devHandle_t* dev);
 
 extern int mrf24j40_transmit(mrf24j40_devHandle_t* dev, macHeader_t* header, uint8_t *payload, uint8_t lPayload);
+
+extern int mrf24j40_dumpSaMem(mrf24j40_devHandle_t *dev, mrf24j40_saReg_t *map);
+
+#endif //__MRF24J40_REG_H

@@ -1,3 +1,6 @@
+#ifndef __MRF24J40_REG_H
+#define __MRF24J40_REG_H
+
 // Short Address Registers
 #define REG_RXMCR 0x00  // Receive MAC control
 #define BIT_PROMI 0
@@ -131,3 +134,78 @@
 #define REG_UNONCE11  0x24B
 #define REG_UNONCE12  0x24C
 #define REG_RXFIFO    0x300 //Receive FIFO
+
+typedef union{
+	uint8_t regblock[64];
+	struct {
+		uint8_t	regRXMCR;
+		uint8_t regPANIDL;
+		uint8_t regPANIDH;
+		uint8_t regSADRL;
+		uint8_t regSADRH;
+		uint8_t regEADR0;
+		uint8_t regEADR1;
+		uint8_t regEADR2;
+		uint8_t regEADR3;
+		uint8_t regEADR4;
+		uint8_t regEADR5;
+		uint8_t regEADR6;
+		uint8_t regEADR7;
+		uint8_t regRXFLUSH;
+		uint8_t regRes0;
+		uint8_t regRes1;
+
+		uint8_t regORDER;
+		uint8_t regTXMCR;
+		uint8_t regACKTMOUT;
+		uint8_t regESLOTG1;
+		uint8_t regSYMTICKL;
+		uint8_t regSYMTICKH;
+		uint8_t regPACON0;
+		uint8_t regPACON1;
+		uint8_t regPACON2;
+		uint8_t regRes2;
+		uint8_t regTXBCON0;
+		uint8_t regTXNCON;
+		uint8_t regTXG1CON;
+		uint8_t regTXG2CON;
+		uint8_t regESLOTG23;
+		uint8_t regESLOTG45;
+
+		uint8_t regESLOTG67;
+		uint8_t regTXPEND;
+		uint8_t regWAKECON;
+		uint8_t regFRMOFFSET;
+		uint8_t regTXSTAT;
+		uint8_t regTXBCON1;
+		uint8_t regGATECLK;
+		uint8_t regTXTIME;
+		uint8_t regHSYMTMRL;
+		uint8_t regHSYMTMRH;
+		uint8_t regSOFTRST;
+		uint8_t regRes3;
+		uint8_t regSECCON0;
+		uint8_t regSECCON1;
+		uint8_t regTXSTBL;
+		uint8_t regRes4;
+
+		uint8_t regRXSR;
+		uint8_t regINTSTAT;
+		uint8_t regINTCON;
+		uint8_t regGPIO;
+		uint8_t regTRISGPIO;
+		uint8_t regSLPACK;
+		uint8_t regRFCTL;
+		uint8_t regSECCR2;
+		uint8_t regBBREG0;
+		uint8_t regBBREG1;
+		uint8_t regBBREG2;
+		uint8_t regBBREG3;
+		uint8_t regBBREG4;
+		uint8_t regRes5;
+		uint8_t regBBREG6;
+		uint8_t regCCAEDTH;
+	} regname;
+} mrf24j40_saReg_t;
+
+#endif //__MRF24J40_REG_H
