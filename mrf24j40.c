@@ -29,7 +29,7 @@
 #include "mrf24j40.h"
 #include "main.h"  //contains MRF24J40_*Address* functions
 
-int mrf24j40_hw_init(mrf24j40_devHandle_t *dev)
+int mrf24j40_hw_init(mrf24j40_devHandle_t* dev, mrf24j40_initData_t* init)
 {
 	//Steps are according to Datasheet 3.2 Initialization, Page 90
 
@@ -112,14 +112,16 @@ int mrf24j40_hw_init(mrf24j40_devHandle_t *dev)
 	//delay_ms(1);
 
 	//Step 16.
-	MRF24J40_longAddressWrite(REG_RFCON3, 0x00); //0dbm  TX Power
-	//MRF24J40_longAddressWrite(REG_RFCON3, 0x80); //-20dbm TX Power
-
-	//Step 16 for MRF24J40ME.   (Module with PA / LNA)
-	//MRF24J40_longAddressWrite(REG_RFCON3, 0x85); //0.1dbm TX Power
-	//MRF24J40_longAddressWrite(REG_RFCON3, 0x00); //NOT SPECIFIED ??Power too high??
-	//MRF24J40_longAddressWrite(REG_TESTMODE, 0x7); //PA / LNA control
-
+	if(init->hasPA){
+		//for MRF24J40ME.   (Module with PA / LNA)
+		MRF24J40_longAddressWrite(REG_RFCON3, 0x85); //0.1dbm TX Power
+		//MRF24J40_longAddressWrite(REG_RFCON3, 0x00); //NOT SPECIFIED ??Power too high??
+		MRF24J40_longAddressWrite(REG_TESTMODE, 0x7); //PA / LNA control
+	}
+	else {
+		MRF24J40_longAddressWrite(REG_RFCON3, 0x00); //0dbm  TX Power
+		//MRF24J40_longAddressWrite(REG_RFCON3, 0x80); //-20dbm TX Power
+	}
 
 	//Step 17.
 	MRF24J40_shortAddressWrite(REG_RFCTL, 0x04); //Reset RF
@@ -129,7 +131,7 @@ int mrf24j40_hw_init(mrf24j40_devHandle_t *dev)
 	//Step 19.
 	delay_ms(1);
 
-
+	//Dummy data, not used
 	MRF24J40_shortAddressWrite(REG_SADRL, 0x56);
 	MRF24J40_shortAddressWrite(REG_SADRH, 0x78);
 	MRF24J40_shortAddressWrite(REG_PANIDL, 0x55);

@@ -50,6 +50,10 @@ typedef struct {
 	uint8_t seq_no;
 } mrf24j40_devHandle_t;
 
+typedef struct {
+	uint8_t hasPA : 1;
+} mrf24j40_initData_t;
+
 
 typedef struct {
 	struct 	{
@@ -68,7 +72,7 @@ typedef struct {
 } macHeader_t;
 
 
-extern int mrf24j40_hw_init(mrf24j40_devHandle_t* dev);
+extern int mrf24j40_hw_init(mrf24j40_devHandle_t* dev, mrf24j40_initData_t* init);
 extern int mrf24j40_setRxModeNormal(mrf24j40_devHandle_t* dev);
 extern int mrf24j40_setRxModePromiscuous(mrf24j40_devHandle_t* dev);
 
