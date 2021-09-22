@@ -190,7 +190,8 @@ int mrf24j40_prepareTransmit(mrf24j40_devHandle_t* dev, macHeader_t* header, uin
 	MRF24J40_longAddressWrite(pTxFifo++, 0x88); //Address field contains short Address for Dest. + Source, IEEE 802.15.4-2003 compatible Frame.
 
 	// Squence Number (SN)
-	MRF24J40_longAddressWrite(pTxFifo++, (dev->seq_no)++);
+	MRF24J40_longAddressWrite(pTxFifo++, (dev->seq_no)++); //Post-increment: Current value (before increment) of seq_no is used for transmit,
+	                                                       // i.e. seq_no might be set by application prior to calling mrf24j40_prepareTransmit
 
 	//Dest. PAN ID (here: Broadcast)
 	//MRF24J40_longAddressWrite(pTxFifo++, 0xFF);
