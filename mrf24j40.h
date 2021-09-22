@@ -59,15 +59,15 @@ typedef struct {
 
 	union {
 		struct 	{
-			uint8_t frameType   : 3;
-			uint8_t secEn       : 1;
-			uint8_t framePend   : 1;
-			uint8_t ackReq      : 1;
-			uint8_t panIdCmpr   : 1;
-			uint8_t reserved    : 3;
-			uint8_t destMode    : 2;
-			uint8_t frameVer    : 2;
-			uint8_t srcMode     : 2;
+			uint16_t frameType   : 3;
+			uint16_t secEn       : 1;
+			uint16_t framePend   : 1;
+			uint16_t ackReq      : 1;
+			uint16_t panIdCmpr   : 1;
+			uint16_t reserved    : 3;
+			uint16_t destMode    : 2;
+			uint16_t frameVer    : 2;
+			uint16_t srcMode     : 2;
 		} flags;
 		uint16_t word;
 	} fcf;
@@ -82,6 +82,11 @@ typedef struct {
 extern int mrf24j40_hw_init(mrf24j40_devHandle_t* dev, mrf24j40_initData_t* init);
 extern int mrf24j40_setRxModeNormal(mrf24j40_devHandle_t* dev);
 extern int mrf24j40_setRxModePromiscuous(mrf24j40_devHandle_t* dev);
+
+
+extern int mrf24j40_getIntStat(mrf24j40_devHandle_t* dev, uint8_t* intstat);
+extern int mrf24j40_isRXIf(uint8_t intstat);
+extern int mrf24j40_getReceivedData(mrf24j40_devHandle_t* dev, macHeader_t* header, uint8_t *sn, uint8_t *payload, uint8_t *lPayload);
 
 extern int mrf24j40_prepareTransmit(mrf24j40_devHandle_t* dev, macHeader_t* header, uint8_t *payload, uint8_t lPayload);
 extern int mrf24j40_doTransmit(mrf24j40_devHandle_t* dev);
