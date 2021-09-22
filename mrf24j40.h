@@ -56,14 +56,21 @@ typedef struct {
 
 
 typedef struct {
-	struct 	{
-		uint8_t frameType   : 2;
-		uint8_t framePend   : 1;
-		uint8_t ackReq      : 1;
-		uint8_t panIdCmpr   : 1;
-		uint8_t destMode    : 2;
-		uint8_t srcMode     : 2;
-	} flags;
+
+	union {
+		struct 	{
+			uint8_t frameType   : 3;
+			uint8_t secEn       : 1;
+			uint8_t framePend   : 1;
+			uint8_t ackReq      : 1;
+			uint8_t panIdCmpr   : 1;
+			uint8_t reserved    : 3;
+			uint8_t destMode    : 2;
+			uint8_t frameVer    : 2;
+			uint8_t srcMode     : 2;
+		} flags;
+		uint16_t word;
+	} fcf;
 
 	uint16_t destPanId;
 	uint16_t destAddress; // short address (16bit)

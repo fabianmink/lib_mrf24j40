@@ -169,7 +169,8 @@ int mrf24j40_prepareTransmit(mrf24j40_devHandle_t* dev, macHeader_t* header, uin
 	uint8_t pTxFifo = REG_TXFIFO;
 	uint8_t frameControl;
 
-	if(header->flags.panIdCmpr){
+	//todo: more flags have to be checked
+	if(header->fcf.flags.panIdCmpr){
 		frameControl = 0x41; //Frame type "Data", No security, No frame pending, No Ack. Reqest, PAN ID Compression (only destination PAN ID)
 		headerLength = 9;
 	}
@@ -206,7 +207,7 @@ int mrf24j40_prepareTransmit(mrf24j40_devHandle_t* dev, macHeader_t* header, uin
 	MRF24J40_longAddressWrite(pTxFifo++, ((header->destAddress>>8) & 0x00FF));
 
 	//Source PAN ID
-	if(!(header->flags.panIdCmpr)){
+	if(!(header->fcf.flags.panIdCmpr)){
 		MRF24J40_longAddressWrite(pTxFifo++, (header->srcPanId & 0x00FF));
 		MRF24J40_longAddressWrite(pTxFifo++, ((header->srcPanId>>8) & 0x00FF));
 	}
