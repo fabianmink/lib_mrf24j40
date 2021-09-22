@@ -183,7 +183,7 @@ int mrf24j40_getReceivedData(mrf24j40_devHandle_t* dev, macHeader_t* header, uin
 	MRF24J40_shortAddressWrite(REG_BBREG1, (1<<BIT_RXDECINV));
 
 	//READ RX FIFO
-	uint8_t len;
+	uint8_t len; //total length=header+payload+lqi+rssi
 	len = MRF24J40_longAddressRead(REG_RXFIFO);
 
 	uint8_t headerLen = 9;
@@ -266,13 +266,17 @@ int mrf24j40_getReceivedData(mrf24j40_devHandle_t* dev, macHeader_t* header, uin
 	srcAdr |= (MRF24J40_longAddressRead(REG_RXFIFO+9)<<8);
 	header->srcAddress = srcAdr;
 
-	//Remaining data is payload
+	//Remaining data is payload, last 2 bytes are FCS and RSSI
 	int ipl;
-	for(ipl=0;ipl<(len-headerLen);ipl++){
+	for(ipl=0;ipl<(len-headerLen-2);ipl++){
 		if(ipl >= *lPayload) break;
 		payload[ipl] = MRF24J40_longAddressRead(REG_RXFIFO+headerLen+1+ipl);
 	}
-	*lPayload = ipl+1;
+	*lPayload = ipl;
+
+	//FCS does not need to be read!
+	//uint8_t lqi = MRF24J40_longAddressRead(REG_RXFIFO+len+3);
+	//uint8_t rssi = MRF24J40_longAddressRead(REG_RXFIFO+len+4);
 
 	//Enable packet reception
 	MRF24J40_shortAddressWrite(REG_BBREG1, 0x00);
