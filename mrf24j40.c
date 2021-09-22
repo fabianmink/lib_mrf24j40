@@ -37,12 +37,21 @@ int mrf24j40_hw_init(mrf24j40_devHandle_t* dev, mrf24j40_initData_t* init)
 
 	//Step 1.
 	MRF24J40_shortAddressWrite(REG_SOFTRST, 0x07);
+	delay_ms(10);
+
+	MRF24J40_shortAddressWrite(REG_SOFTRST, 0x07);
+	delay_ms(10);
+
+	MRF24J40_shortAddressWrite(REG_SOFTRST, 0x07);
+	delay_ms(10);
+
+	MRF24J40_shortAddressWrite(REG_SOFTRST, 0x07);
 	uint8_t rval;
 	do {
 		rval = MRF24J40_shortAddressRead(REG_SOFTRST);
 	} while ((rval & 0x07) != (uint8_t) 0x00);
 
-	delay_ms(1);
+	delay_ms(10);
 
 
 	//Step 2.
